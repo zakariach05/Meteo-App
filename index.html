@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05 Météo 05 - Prévisions Mondiales</title>
+    <link rel="icon" type="image/png" href="meteoicon-removebg-preview.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="glow-bg"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <i class="fas fa-bolt-lightning main-logo-icon"></i>
+                <h1 class="logo-text"><span class="white-text">05</span> meteo</h1>
+            </div>
+
+            <div class="header-actions">
+                <button id="themeToggle" class="theme-btn" title="Changer de thème">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="search-box">
+                    <input type="text" id="cityInput" placeholder="Rechercher une ville dans le monde...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sélecteur de Pays (Nouveau) -->
+        <section class="country-selector">
+            <h3><i class="fas fa-globe"></i> Choisir un pays</h3>
+            <div class="country-scroll">
+                <div class="country-card active" data-country="Maroc" data-code="MA">
+                    <span class="flag">🇲🇦</span>
+                    <span class="name">Maroc</span>
+                </div>
+                <div class="country-card" data-country="France" data-code="FR">
+                    <span class="flag">🇫🇷</span>
+                    <span class="name">France</span>
+                </div>
+                <div class="country-card" data-country="Algérie" data-code="DZ">
+                    <span class="flag">🇩🇿</span>
+                    <span class="name">Algérie</span>
+                </div>
+                <div class="country-card" data-country="Tunisie" data-code="TN">
+                    <span class="flag">🇹🇳</span>
+                    <span class="name">Tunisie</span>
+                </div>
+                <div class="country-card" data-country="Égypte" data-code="EG">
+                    <span class="flag">🇪🇬</span>
+                    <span class="name">Égypte</span>
+                </div>
+                <div class="country-card" data-country="Libye" data-code="LY">
+                    <span class="flag">🇱🇾</span>
+                    <span class="name">Libye</span>
+                </div>
+                <div class="country-card" data-country="Italie" data-code="IT">
+                    <span class="flag">IT</span>
+                    <span class="name">Italie</span>
+                </div>
+                <div class="country-card" data-country="Espagne" data-code="ES">
+                    <span class="flag">🇪🇸</span>
+                    <span class="name">Espagne</span>
+                </div>
+                <div class="country-card" data-country="USA" data-code="US">
+                    <span class="flag">🇺🇸</span>
+                    <span class="name">USA</span>
+                </div>
+                <div class="country-card" data-country="Europe" data-code="EU">
+                    <span class="flag">🇪🇺</span>
+                    <span class="name">Europe</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Villes dynamiques -->
+        <div class="region-selector">
+            <div id="cityChipsContainer" class="chip-group">
+                <!-- Les villes seront injectées ici par pays -->
+            </div>
+        </div>
+
+        <main id="mainContent" class="hidden">
+            <div class="dashboard">
+                <!-- Météo Actuelle -->
+                <section class="current-weather-card">
+                    <div class="card-glass">
+                        <div class="top-row">
+                            <div>
+                                <h2 id="cityName">--</h2>
+                                <p id="currentTime">--</p>
+                            </div>
+                            <div class="main-temp-icon">
+                                <i id="weatherIcon" class="fas fa-sun"></i>
+                                <span id="tempMain">--°</span>
+                            </div>
+                        </div>
+                        <div class="bottom-row">
+                            <div class="stat">
+                                <i class="fas fa-droplet"></i>
+                                <span id="humidity">--%</span>
+                                <p>Humidité</p>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-wind"></i>
+                                <span id="wind">-- km/h</span>
+                                <p>Vent</p>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-cloud-showers-heavy"></i>
+                                <span id="rain">-- %</span>
+                                <p>Précipit.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Prévisions Horaires -->
+                <section class="hourly-forecast">
+                    <h3><i class="fas fa-clock"></i> Prévisions 24h</h3>
+                    <div id="hourlyContainer" class="hourly-scroll"></div>
+                </section>
+
+                <!-- Map -->
+                <section class="map-section">
+                    <h3><i class="fas fa-map-location-dot"></i> Google Maps</h3>
+                    <div class="map-wrapper">
+                        <iframe id="googleMap" src="" width="100%" height="450" style="border:0;" allowfullscreen=""
+                            loading="lazy"></iframe>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <div id="loader" class="loader">
+            <div class="ripple"></div>
+            <p>Calcul des conditions locales...</p>
+        </div>
+
+        <div id="errorMessage" class="error-msg hidden">
+            <i class="fas fa-circle-exclamation"></i>
+            <p>Oups ! Ville introuvable. Veuillez vérifier l'orthographe.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer-custom">
+            <div class="footer-content">
+                <p>&copy; 2025 <span class="white-text">05</span> meteo. Tous droits réservés.</p>
+                <div class="footer-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
